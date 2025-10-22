@@ -1,0 +1,138 @@
+{
+  "rings": [
+    "Adopt",
+    "Trial",
+    "Assess",
+    "Hold"
+  ],
+  "quadrants": [
+    "Languages",
+    "Frameworks",
+    "Tools",
+    "Platforms"
+  ],
+  "categories": [
+    "CI/CD",
+    "Data Stores",
+    "Monitoring",
+    "Build Tools",
+    "Hosting",
+    "Authentication",
+    "Libraries"
+  ],
+  "entries": [
+    {
+      "id": "typescript",
+      "label": "TypeScript",
+      "quadrant": "Languages",
+      "ring": "Adopt",
+      "category": "Libraries",
+      "tags": [
+        "frontend",
+        "typed"
+      ],
+      "moved": 0,
+      "url": "https://github.com/microsoft/TypeScript",
+      "description": "Main language for frontend services"
+    },
+    {
+      "id": "react",
+      "label": "React",
+      "quadrant": "Frameworks",
+      "ring": "Adopt",
+      "category": "Libraries",
+      "tags": [
+        "ui",
+        "frontend"
+      ],
+      "moved": 1,
+      "url": "https://reactjs.org",
+      "description": "UI framework for public UI components"
+    },
+    {
+      "id": "github-actions",
+      "label": "GitHub Actions",
+      "quadrant": "Tools",
+      "ring": "Adopt",
+      "category": "CI/CD",
+      "tags": [
+        "ci",
+        "cd",
+        "workflows"
+      ],
+      "moved": 0,
+      "url": "https://github.com/features/actions",
+      "description": "CI/CD for repository workflows"
+    },
+    {
+      "id": "vercel",
+      "label": "Vercel",
+      "quadrant": "Platforms",
+      "ring": "Trial",
+      "category": "Hosting",
+      "tags": [
+        "frontend-hosting",
+        "serverless"
+      ],
+      "moved": 0,
+      "url": "https://vercel.com",
+      "description": "Serverless hosting for frontend apps"
+    },
+    {
+      "id": "postgres",
+      "label": "PostgreSQL",
+      "quadrant": "Tools",
+      "ring": "Adopt",
+      "category": "Data Stores",
+      "tags": [
+        "relational",
+        "sql"
+      ],
+      "moved": 0,
+      "url": "https://www.postgresql.org/",
+      "description": "Primary relational database for transactional data"
+    },
+    {
+      "id": "mongo",
+      "label": "MongoDB",
+      "quadrant": "Tools",
+      "ring": "Assess",
+      "category": "Data Stores",
+      "tags": [
+        "document",
+        "nosql"
+      ],
+      "moved": 0,
+      "url": "https://www.mongodb.com/",
+      "description": "Document DB used in a few services; evaluating for standardization"
+    },
+    {
+      "id": "prometheus",
+      "label": "Prometheus",
+      "quadrant": "Tools",
+      "ring": "Adopt",
+      "category": "Monitoring",
+      "tags": [
+        "metrics",
+        "observability"
+      ],
+      "moved": 0,
+      "url": "https://prometheus.io/",
+      "description": "Metrics collection and alerting for observability"
+    },
+    {
+      "id": "vite",
+      "label": "Vite",
+      "quadrant": "Tools",
+      "ring": "Trial",
+      "category": "Build Tools",
+      "tags": [
+        "bundler",
+        "dev-experience"
+      ],
+      "moved": 0,
+      "url": "https://vitejs.dev/",
+      "description": "Fast build tool and dev server for modern web apps"
+    }
+  ]
+}
