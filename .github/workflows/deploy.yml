@@ -4,7 +4,7 @@ on:
   push:
     paths:
       - 'radar/**'
-      - '.github/workflows/deploy-radar.yml'
+      - '.github/workflows/deploy.yml'
   workflow_dispatch:
 
 jobs:
