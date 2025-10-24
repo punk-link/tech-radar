@@ -1,0 +1,14 @@
+{
+  "name": "tech-radar",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Punk Link Tech Radar static site",
+  "license": "MIT",
+  "scripts": {
+    "dev": "serve -l 5173 radar",
+    "preview": "serve radar"
+  },
+  "devDependencies": {
+    "serve": "^14.2.3"
+  }
+}

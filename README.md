@@ -18,7 +18,17 @@ This repo is the source of truth for Punk Link’s Tech Radar. It holds:
 
 ## Local preview
 
-Open `radar/index.html` directly in your browser or serve the `radar/` folder from any static server. Changes to `radar/data.json` will reflect on reload.
+Browsers block `fetch()` for `file://` URLs, so serve the folder over HTTP. Using Yarn:
+
+```powershell
+# install dependencies once
+yarn
+
+# start local dev server on http://localhost:5173
+yarn dev
+```
+
+Alternatively, any static server works (e.g., VS Code Live Server). Changes to `radar/data.json` will reflect on reload.
 
 ## Contributing
 

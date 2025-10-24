@@ -1,0 +1,11 @@
+# Node
+node_modules/
+.npm/
+.yarn/
+.yarnrc*
+yarn-error.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
