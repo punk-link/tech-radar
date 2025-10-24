@@ -1,0 +1,91 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://punk-link.github.io/tech-radar/schema/radar.schema.json",
+  "title": "Punk Link Tech Radar",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["rings", "quadrants", "entries"],
+  "properties": {
+    "rings": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["Adopt", "Trial", "Assess", "Hold"]
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "quadrants": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["Languages", "Frameworks", "Tools", "Platforms"]
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "categories": {
+      "type": "array",
+      "items": { "type": "string" },
+      "uniqueItems": true
+    },
+    "entries": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "label", "quadrant", "ring"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "label": { "type": "string", "minLength": 1 },
+          "quadrant": { "type": "string", "enum": ["Languages", "Frameworks", "Tools", "Platforms"] },
+          "ring": { "type": "string", "enum": ["Adopt", "Trial", "Assess", "Hold"] },
+          "category": { "type": "string" },
+          "tags": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 },
+            "uniqueItems": true
+          },
+          "url": { "type": "string", "format": "uri" },
+          "description": { "type": "string" },
+          "moved": { "type": "integer" },
+
+          "isNew": { "type": "boolean" },
+          "owner": { "type": "string" },
+          "rationale": { "type": "string" },
+          "links": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["title", "href"],
+              "properties": {
+                "title": { "type": "string" },
+                "href": { "type": "string", "format": "uri" }
+              }
+            }
+          },
+          "lastReviewed": { "type": "string", "format": "date" },
+          "introducedInEdition": { "type": "string" },
+          "risk": { "type": "string", "enum": ["low", "medium", "high"] },
+          "impact": { "type": "string", "enum": ["team", "multi-team", "org-wide"] },
+          "history": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["date", "fromRing", "toRing"],
+              "properties": {
+                "date": { "type": "string", "format": "date" },
+                "fromRing": { "type": "string", "enum": ["Adopt", "Trial", "Assess", "Hold"] },
+                "toRing": { "type": "string", "enum": ["Adopt", "Trial", "Assess", "Hold"] },
+                "reason": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+name: Validate Tech Radar Data
+
+on:
+  pull_request:
+    paths:
+      - 'radar/**'
+      - 'schema/**'
+      - '.github/workflows/validate.yml'
+  push:
+    branches: [ main ]
+    paths:
+      - 'radar/**'
+      - 'schema/**'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate data.json against schema
+        run: |
+          npx --yes ajv-cli@5 -s schema/radar.schema.json -d radar/data.json
+
+      - name: Print friendly summary
+        if: ${{ success() }}
+        run: |
+          echo "✅ radar/data.json is valid against schema/radar.schema.json"
