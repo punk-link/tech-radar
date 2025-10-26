@@ -3,3 +3,10 @@
 @tailwind utilities;
 
 /* Custom component tweaks if needed */
+
+@layer base {
+	:root { color-scheme: dark; }
+}
+
+/* Improve SVG text readability on dark backgrounds */
+svg#radar text { fill: #e5e7eb; }

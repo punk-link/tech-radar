@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -9,33 +9,33 @@
         <script src="https://zalando.github.io/tech-radar/release/radar-0.12.js"></script>
         <link rel="stylesheet" href="./styles/output.css" />
     </head>
-    <body> 
+    <body class="bg-slate-900 text-slate-100"> 
         <div class="flex flex-col md:flex-row gap-4 items-stretch p-3 min-h-screen box-border">
-            <aside id="filters" class="w-full md:w-80 md:max-w-[40vw] md:border-r border-gray-200 md:pr-3 md:overflow-auto border-b md:border-b-0 pb-3">
+            <aside id="filters" class="w-full md:w-80 md:max-w-[40vw] md:border-r border-slate-700 md:pr-3 md:overflow-auto border-b md:border-b-0 pb-3">
                 <h2 class="text-base font-semibold mb-2">Filters</h2>
                 <div class="flex gap-2 mb-3">
-                    <input type="text" id="searchInput" placeholder="Search techs, tags, categories..." class="flex-1 border border-gray-300 rounded px-2 py-1 text-sm" />
-                    <button type="button" id="clearSearch" title="Clear search" class="px-2 py-1 text-sm border rounded">✕</button>
+                    <input type="text" id="searchInput" placeholder="Search techs, tags, categories..." class="flex-1 border border-slate-700 bg-slate-800 placeholder-slate-400 rounded px-2 py-1 text-sm" />
+                    <button type="button" id="clearSearch" title="Clear search" class="px-2 py-1 text-sm border border-slate-600 rounded hover:bg-slate-800">✕</button>
                 </div>
-                <fieldset class="border border-gray-200 rounded p-2 mb-3">
+                <fieldset class="border border-slate-700 rounded p-2 mb-3">
                     <legend class="font-semibold text-sm px-1">Categories</legend>
                     <div class="flex gap-2 mb-2">
-                        <button type="button" id="catAll" class="px-2 py-1 text-sm border rounded">All</button>
-                        <button type="button" id="catNone" class="px-2 py-1 text-sm border rounded">None</button>
+                        <button type="button" id="catAll" class="px-2 py-1 text-sm border border-slate-600 rounded hover:bg-slate-800">All</button>
+                        <button type="button" id="catNone" class="px-2 py-1 text-sm border border-slate-600 rounded hover:bg-slate-800">None</button>
                     </div>
                     <div class="max-h-64 overflow-auto pr-1 space-y-1 flex flex-col" id="categoryList"></div>
                 </fieldset>
-                <fieldset class="border border-gray-200 rounded p-2 mb-3">
+                <fieldset class="border border-slate-700 rounded p-2 mb-3">
                     <legend class="font-semibold text-sm px-1">Techs (tags)</legend>
                     <div class="flex gap-2 mb-2">
-                        <button type="button" id="tagAll" class="px-2 py-1 text-sm border rounded">All</button>
-                        <button type="button" id="tagNone" class="px-2 py-1 text-sm border rounded">None</button>
+                        <button type="button" id="tagAll" class="px-2 py-1 text-sm border border-slate-600 rounded hover:bg-slate-800">All</button>
+                        <button type="button" id="tagNone" class="px-2 py-1 text-sm border border-slate-600 rounded hover:bg-slate-800">None</button>
                     </div>
                     <div class="max-h-64 overflow-auto pr-1 space-y-1 flex flex-col" id="tagList"></div>
                 </fieldset>
                 <div class="flex gap-2 items-center">
-                    <button type="button" id="resetFilters" class="px-2 py-1 text-sm border rounded">Reset filters</button>
-                    <span class="text-gray-600 text-xs" id="matchCount"></span>
+                    <button type="button" id="resetFilters" class="px-2 py-1 text-sm border border-slate-600 rounded hover:bg-slate-800">Reset filters</button>
+                    <span class="text-slate-400 text-xs" id="matchCount"></span>
                 </div>
             </aside>
             <div class="radar-container flex-1 min-w-0">
@@ -104,9 +104,9 @@
                         height: BASE_HEIGHT,
                         scale: 1.0,
                         colors: {
-                            background: "#fff",
-                            grid: "#bbb",
-                            inactive: "#ddd"
+                            background: "#0f172a", // slate-900
+                            grid: "#334155",       // slate-700
+                            inactive: "#475569"    // slate-600
                         },
                         font_family: "Arial, Helvetica",
                         title: "Punk.link — Tech Radar",
