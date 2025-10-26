@@ -9,8 +9,8 @@
         <script src="https://zalando.github.io/tech-radar/release/radar-0.12.js"></script>
         <style>
             body { margin: 0; font-family: Arial, Helvetica, sans-serif; }
-            .radar-layout { display: flex; gap: 16px; align-items: flex-start; padding: 12px; }
-            .filters { width: 320px; max-width: 40vw; border-right: 1px solid #eee; padding-right: 12px; }
+            .radar-layout { display: flex; gap: 16px; align-items: stretch; padding: 12px; min-height: 100vh; box-sizing: border-box; }
+            .filters { width: 320px; max-width: 40vw; border-right: 1px solid #eee; padding-right: 12px; overflow: auto; }
             .filters h2 { font-size: 16px; margin: 8px 0; }
             .filters fieldset { border: 1px solid #ddd; padding: 8px 10px; margin: 8px 0; }
             .filters legend { font-weight: bold; font-size: 13px; }
@@ -23,8 +23,14 @@
             .filters .search button { padding: 6px 8px; font-size: 12px; cursor: pointer; }
             .actions { display: flex; gap: 8px; margin-top: 8px; }
             .actions button { padding: 6px 8px; font-size: 12px; cursor: pointer; }
-            .radar-container { flex: 1; min-width: 0; }
-            #radar { width: 100%; height: 1000px; }
+            .radar-container { flex: 1 1 auto; min-width: 0; }
+            /* Width stretches with container; height is adjusted dynamically via JS */
+            #radar { width: 100%; height: auto; }
+
+            @media (max-width: 900px) {
+                .radar-layout { flex-direction: column; height: auto; min-height: 100vh; }
+                .filters { width: auto; max-width: 100%; border-right: 0; border-bottom: 1px solid #eee; padding-bottom: 12px; }
+            }
         </style>
     </head>
     <body> 
@@ -64,14 +70,41 @@
         <script>
             (async function () {
                 // Helper to render or re-render the radar with given entries
+                function computeDimensions() {
+                    const container = document.querySelector('.radar-container');
+                    const rect = container ? container.getBoundingClientRect() : { width: 1200, top: 0 };
+                    const availableWidth = Math.max(600, Math.floor(rect.width));
+                    // Use distance from container top to viewport bottom to avoid being limited by sidebar height
+                    const verticalPadding = 12; // matches layout padding
+                    const availableHeight = Math.max(500, Math.floor(window.innerHeight - rect.top - verticalPadding));
+                    // Logical canvas size used by the radar drawing
+                    const BASE_WIDTH = 1450, BASE_HEIGHT = 1000, ASPECT = BASE_HEIGHT / BASE_WIDTH; // ~0.69
+                    // Size the SVG viewport while preserving aspect ratio
+                    const heightByAspect = Math.floor(availableWidth * ASPECT);
+                    const targetHeight = Math.min(availableHeight, heightByAspect);
+                    const targetWidth = availableWidth;
+                    return { width: targetWidth, height: targetHeight, BASE_WIDTH, BASE_HEIGHT };
+                }
+
                 function renderRadar({ quadrants, rings, entries }) {
                     const svg = document.getElementById("radar");
                     if (svg) svg.innerHTML = ""; // clear before redraw
+                    const { width, height, BASE_WIDTH, BASE_HEIGHT } = computeDimensions();
+                    if (svg) {
+                        // Scale the full drawing into the available viewport using viewBox
+                        svg.style.height = `${height}px`;
+                        svg.style.width = `100%`;
+                        svg.setAttribute('width', String(width));
+                        svg.setAttribute('height', String(height));
+                        svg.setAttribute('viewBox', `0 0 ${BASE_WIDTH} ${BASE_HEIGHT}`);
+                        svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+                    }
                     radar_visualization({
                         repo_url: "https://github.com/punk-link/tech-radar",
                         svg_id: "radar",
-                        width: 1450,
-                        height: 1000,
+                        // Keep logical dimensions constant; viewBox+CSS scale to fit viewport
+                        width: BASE_WIDTH,
+                        height: BASE_HEIGHT,
                         scale: 1.0,
                         colors: {
                             background: "#fff",
@@ -249,6 +282,10 @@
                     const onSearch = debounce(() => applyFilters(), 200);
                     searchInput.addEventListener("input", onSearch);
                     clearSearchBtn.addEventListener("click", () => { searchInput.value = ""; applyFilters(); });
+
+                    // Resize handling: recompute dimensions and re-apply current filters
+                    const onResize = debounce(() => applyFilters(), 150);
+                    window.addEventListener('resize', onResize);
 
                     // Initial render
                     renderRadar({ quadrants, rings, entries: entries.map(({ _category, _tags, ...rest }) => rest) });
