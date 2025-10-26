@@ -318,65 +318,87 @@
                 }
             })();
 
-            // After render, add/update SVG <title> on text and blip anchor nodes to show rich tooltips
+            // Build HTML tooltip content for an entry
+            function buildTooltipHTML(label, meta) {
+                const safe = (v) => v ?? '—';
+                const tags = (meta?.tags && meta.tags.length) ? meta.tags.join(', ') : '—';
+                const desc = meta?.desc ? `<div class="mt-2 text-slate-300">${meta.desc}</div>` : '';
+                return `
+                    <div class="font-semibold text-slate-100">${label}</div>
+                    <div class="mt-1 grid grid-cols-[auto_1fr] gap-x-2 gap-y-1 text-sm">
+                        <div class="text-slate-400">Quadrant:</div><div>${safe(meta?.quadrant)}</div>
+                        <div class="text-slate-400">Ring:</div><div>${safe(meta?.ring)}</div>
+                        <div class="text-slate-400">Category:</div><div>${safe(meta?.category)}</div>
+                        <div class="text-slate-400">Tags:</div><div>${tags}</div>
+                    </div>
+                    ${desc}
+                `;
+            }
+
+            function ensureTooltip() {
+                let tip = document.getElementById('radar-tooltip');
+                if (!tip) {
+                    tip = document.createElement('div');
+                    tip.id = 'radar-tooltip';
+                    tip.className = 'fixed z-50 pointer-events-none bg-slate-800/95 text-slate-100 border border-slate-700 rounded-md px-3 py-2 shadow-lg text-sm max-w-xs';
+                    tip.style.display = 'none';
+                    document.body.appendChild(tip);
+                }
+                return tip;
+            }
+
+            // After render, attach custom HTML tooltips to side labels and blip anchors
             function attachTooltips() {
                 const svg = document.getElementById('radar');
                 if (!svg) return;
-                const ns = svg.namespaceURI;
-                
-                // 1) Tooltips for side labels (text elements)
-                const texts = svg.querySelectorAll('text');
-                texts.forEach(textEl => {
+                const tip = ensureTooltip();
+
+                // Helper: bind hover events
+                const bind = (el, label, meta) => {
+                    // Remove any native <title> to avoid double-tooltips
+                    const titles = el.querySelectorAll('title');
+                    titles.forEach(t => t.remove());
+                    const onEnter = (e) => {
+                        tip.innerHTML = buildTooltipHTML(label, meta);
+                        tip.style.display = 'block';
+                        onMove(e);
+                    };
+                    const onLeave = () => { tip.style.display = 'none'; };
+                    const onMove = (e) => {
+                        const pad = 12;
+                        const vw = window.innerWidth, vh = window.innerHeight;
+                        // measure size after content set
+                        const tw = tip.offsetWidth || 240;
+                        const th = tip.offsetHeight || 120;
+                        const left = Math.min(e.clientX + pad, vw - tw - 4);
+                        const top = Math.min(e.clientY + pad, vh - th - 4);
+                        tip.style.left = `${left}px`;
+                        tip.style.top = `${top}px`;
+                    };
+                    el.addEventListener('mouseenter', onEnter);
+                    el.addEventListener('mouseleave', onLeave);
+                    el.addEventListener('mousemove', onMove);
+                };
+
+                // 1) Side labels (text)
+                svg.querySelectorAll('text').forEach(textEl => {
                     const raw = (textEl.textContent || '').trim();
                     if (!raw) return;
                     const meta = currentMetaByLabel.get(normalizeLabel(raw));
                     if (!meta) return;
-
-                    const lines = [
-                        raw,
-                        `Quadrant: ${meta?.quadrant || '—'}`,
-                        `Ring: ${meta?.ring || '—'}`,
-                        `Category: ${meta?.category || '—'}`,
-                        `Tags: ${(meta?.tags && meta.tags.length) ? meta.tags.join(', ') : '—'}`,
-                    ];
-                    if (meta?.desc) lines.push(`Description: ${meta.desc}`);
-
-                    const targets = new Set();
-                    targets.add(textEl);
-                    const a = textEl.closest('a'); if (a) targets.add(a);
-                    const g = textEl.closest('g'); if (g) targets.add(g);
-
-                    targets.forEach(el => {
-                        let t = el.querySelector('title');
-                        if (!t) {
-                            t = document.createElementNS(ns, 'title');
-                            el.insertBefore(t, el.firstChild);
-                        }
-                        t.textContent = lines.join('\n');
-                    });
+                    // Bind to text and its container so either hover shows tooltip
+                    bind(textEl, raw, meta);
+                    const a = textEl.closest('a'); if (a) bind(a, raw, meta);
+                    const g = textEl.closest('g'); if (g) bind(g, raw, meta);
                 });
 
-                // 2) Tooltips for blips (anchor elements with href)
-                const anchors = svg.querySelectorAll('a');
-                anchors.forEach(a => {
+                // 2) Blips (anchors with href)
+                svg.querySelectorAll('a').forEach(a => {
                     const href = a.getAttribute('href') || a.getAttribute('xlink:href') || a.href || '';
                     const meta = currentMetaByHref.get(normalizeHref(href));
                     if (!meta) return;
                     const label = meta.label || '';
-                    const lines = [
-                        label,
-                        `Quadrant: ${meta?.quadrant || '—'}`,
-                        `Ring: ${meta?.ring || '—'}`,
-                        `Category: ${meta?.category || '—'}`,
-                        `Tags: ${(meta?.tags && meta.tags.length) ? meta.tags.join(', ') : '—'}`,
-                    ];
-                    if (meta?.desc) lines.push(`Description: ${meta.desc}`);
-                    let t = a.querySelector('title');
-                    if (!t) {
-                        t = document.createElementNS(ns, 'title');
-                        a.insertBefore(t, a.firstChild);
-                    }
-                    t.textContent = lines.join('\n');
+                    bind(a, label, meta);
                 });
             }
         </script>
