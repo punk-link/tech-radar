@@ -1,11 +1,272 @@
 <!doctype html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Punk Link — Tech Radar</title>
-</head>
-<body> 
-    
-</body>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <title>Punk.link — Tech Radar</title>
+
+        <script src="https://d3js.org/d3.v7.min.js"></script>
+        <script src="https://zalando.github.io/tech-radar/release/radar-0.12.js"></script>
+        <style>
+            body { margin: 0; font-family: Arial, Helvetica, sans-serif; }
+            .radar-layout { display: flex; gap: 16px; align-items: flex-start; padding: 12px; }
+            .filters { width: 320px; max-width: 40vw; border-right: 1px solid #eee; padding-right: 12px; }
+            .filters h2 { font-size: 16px; margin: 8px 0; }
+            .filters fieldset { border: 1px solid #ddd; padding: 8px 10px; margin: 8px 0; }
+            .filters legend { font-weight: bold; font-size: 13px; }
+            .filters .controls { display: flex; gap: 8px; margin-bottom: 6px; }
+            .filters .list { max-height: 260px; overflow: auto; padding-right: 4px; }
+            .filters label { display: flex; align-items: center; gap: 6px; font-size: 13px; padding: 2px 0; }
+            .filters .muted { color: #666; font-size: 12px; }
+            .filters .search { display: flex; gap: 6px; margin: 6px 0 10px; }
+            .filters .search input { flex: 1; padding: 6px 8px; font-size: 13px; }
+            .filters .search button { padding: 6px 8px; font-size: 12px; cursor: pointer; }
+            .actions { display: flex; gap: 8px; margin-top: 8px; }
+            .actions button { padding: 6px 8px; font-size: 12px; cursor: pointer; }
+            .radar-container { flex: 1; min-width: 0; }
+            #radar { width: 100%; height: 1000px; }
+        </style>
+    </head>
+    <body> 
+        <div class="radar-layout">
+            <aside class="filters" id="filters">
+                <h2>Filters</h2>
+                <div class="search">
+                    <input type="text" id="searchInput" placeholder="Search techs, tags, categories..." />
+                    <button type="button" id="clearSearch" title="Clear search">✕</button>
+                </div>
+                <fieldset>
+                    <legend>Categories</legend>
+                    <div class="controls">
+                        <button type="button" id="catAll">All</button>
+                        <button type="button" id="catNone">None</button>
+                    </div>
+                    <div class="list" id="categoryList"></div>
+                </fieldset>
+                <fieldset>
+                    <legend>Techs (tags)</legend>
+                    <div class="controls">
+                        <button type="button" id="tagAll">All</button>
+                        <button type="button" id="tagNone">None</button>
+                    </div>
+                    <div class="list" id="tagList"></div>
+                </fieldset>
+                <div class="actions">
+                    <button type="button" id="resetFilters">Reset filters</button>
+                    <span class="muted" id="matchCount"></span>
+                </div>
+            </aside>
+            <div class="radar-container">
+                <svg id="radar"></svg>
+            </div>
+        </div>
+
+        <script>
+            (async function () {
+                // Helper to render or re-render the radar with given entries
+                function renderRadar({ quadrants, rings, entries }) {
+                    const svg = document.getElementById("radar");
+                    if (svg) svg.innerHTML = ""; // clear before redraw
+                    radar_visualization({
+                        repo_url: "https://github.com/punk-link/tech-radar",
+                        svg_id: "radar",
+                        width: 1450,
+                        height: 1000,
+                        scale: 1.0,
+                        colors: {
+                            background: "#fff",
+                            grid: "#bbb",
+                            inactive: "#ddd"
+                        },
+                        font_family: "Arial, Helvetica",
+                        title: "Punk.link — Tech Radar",
+                        quadrants,
+                        rings,
+                        print_layout: true,
+                        links_in_new_tabs: true,
+                        entries
+                    });
+                    if (!entries || entries.length === 0) {
+                        // Draw a message on top when no matches
+                        if (svg && svg.namespaceURI) {
+                            const msg = document.createElementNS(svg.namespaceURI, "text");
+                            msg.setAttribute("x", "20");
+                            msg.setAttribute("y", "40");
+                            msg.setAttribute("fill", "#c00");
+                            msg.textContent = "No entries match current filters";
+                            svg.appendChild(msg);
+                        }
+                    }
+                }
+
+                try {
+                    const res = await fetch("data.json");
+                    if (!res.ok) {
+                        throw new Error(`Failed to load data.json: ${res.status} ${res.statusText}`);
+                    }
+                    const data = await res.json();
+
+                    const ringNames = Array.isArray(data.rings) ? data.rings : [];
+                    const quadrantNames = Array.isArray(data.quadrants) ? data.quadrants : [];
+
+                    const ringIndexByName = new Map(
+                        ringNames.map((n, i) => [String(n).toLowerCase(), i])
+                    );
+                    const quadIndexByName = new Map(
+                        quadrantNames.map((n, i) => [String(n).toLowerCase(), i])
+                    );
+
+                    // Default palette covering at least four rings; cycles if more
+                    const ringPalette = ["#5ba300", "#009eb0", "#c7ba00", "#e09b96", "#9b59b6", "#34495e"]; 
+
+                    const rings = ringNames.map((name, i) => ({ name, color: ringPalette[i % ringPalette.length] }));
+                    const quadrants = quadrantNames.map((name) => ({ name }));
+
+                    const sourceEntries = (Array.isArray(data.entries) ? data.entries : []);
+                    const entries = sourceEntries.map((e, idx) => {
+                        const qIdx = quadIndexByName.get(String(e.quadrant ?? "").toLowerCase());
+                        const rIdx = ringIndexByName.get(String(e.ring ?? "").toLowerCase());
+                        return {
+                            id: e.id ?? `entry-${idx}`,
+                            label: e.label ?? e.id ?? `Entry ${idx + 1}`,
+                            quadrant: typeof qIdx === "number" ? qIdx : 0,
+                            ring: typeof rIdx === "number" ? rIdx : 0,
+                            moved: typeof e.moved === "number" ? e.moved : 0,
+                            link: e.url,
+                            active: e.active !== false,
+                            // keep original fields to support filtering without re-mapping
+                            _category: e.category,
+                            _tags: Array.isArray(e.tags) ? e.tags : [],
+                            _desc: e.description || ""
+                        };
+                    });
+
+                    // Build filter sets from data
+                    const allCategories = new Set(
+                        (Array.isArray(data.categories) ? data.categories : [])
+                            .concat(sourceEntries.map(e => e.category).filter(Boolean))
+                    );
+                    const allTags = new Set(
+                        sourceEntries.flatMap(e => Array.isArray(e.tags) ? e.tags : [])
+                    );
+
+                    // Render filter controls
+                    const categoryList = document.getElementById("categoryList");
+                    const tagList = document.getElementById("tagList");
+                    const matchCount = document.getElementById("matchCount");
+                    const searchInput = document.getElementById("searchInput");
+                    const clearSearchBtn = document.getElementById("clearSearch");
+
+                    function createCheckbox(name, value, checked = true) {
+                        const id = `${name}-${value}`.replace(/[^a-z0-9_-]/gi, "_");
+                        const wrapper = document.createElement("label");
+                        const input = document.createElement("input");
+                        input.type = "checkbox";
+                        input.name = name;
+                        input.value = value;
+                        input.id = id;
+                        input.checked = checked;
+                        const span = document.createElement("span");
+                        span.textContent = value;
+                        wrapper.appendChild(input);
+                        wrapper.appendChild(span);
+                        return wrapper;
+                    }
+
+                    function populateList(container, name, values) {
+                        container.innerHTML = "";
+                        Array.from(values).sort((a, b) => String(a).localeCompare(String(b))).forEach(v => {
+                            container.appendChild(createCheckbox(name, v, true));
+                        });
+                    }
+
+                    populateList(categoryList, "category", allCategories);
+                    populateList(tagList, "tag", allTags);
+
+                    function selected(name) {
+                        return new Set(
+                            Array.from(document.querySelectorAll(`input[name="${name}"]`))
+                                .filter(i => i.checked)
+                                .map(i => i.value)
+                        );
+                    }
+
+                    function applyFilters() {
+                        const selectedCategories = selected("category");
+                        const selectedTags = selected("tag");
+                        const q = (searchInput.value || "").toLowerCase().trim();
+
+                        const filtered = entries.filter(e => {
+                            const catOk = selectedCategories.size === 0 || selectedCategories.has(e._category);
+                            const tags = e._tags || [];
+                            const tagOk = selectedTags.size === 0 || tags.some(t => selectedTags.has(t));
+                            const searchOk = q.length === 0 ||
+                                (e.label && e.label.toLowerCase().includes(q)) ||
+                                (e.id && e.id.toLowerCase().includes(q)) ||
+                                (e._category && String(e._category).toLowerCase().includes(q)) ||
+                                (e._desc && e._desc.toLowerCase().includes(q)) ||
+                                tags.some(t => String(t).toLowerCase().includes(q));
+                            return catOk && tagOk && searchOk;
+                        });
+
+                        matchCount.textContent = `${filtered.length} match${filtered.length === 1 ? "" : "es"}`;
+                        // Map back to radar entry shape (exclude helper fields)
+                        const mapped = filtered.map(({ _category, _tags, ...rest }) => rest);
+                        renderRadar({ quadrants, rings, entries: mapped });
+                    }
+
+                    // Wire control buttons
+                    function setAll(name, value) {
+                        document.querySelectorAll(`input[name="${name}"]`).forEach(i => { i.checked = value; });
+                        applyFilters();
+                    }
+                    document.getElementById("catAll").addEventListener("click", () => setAll("category", true));
+                    document.getElementById("catNone").addEventListener("click", () => setAll("category", false));
+                    document.getElementById("tagAll").addEventListener("click", () => setAll("tag", true));
+                    document.getElementById("tagNone").addEventListener("click", () => setAll("tag", false));
+                    document.getElementById("resetFilters").addEventListener("click", () => {
+                        setAll("category", true);
+                        setAll("tag", true);
+                        searchInput.value = "";
+                    });
+
+                    // React on checkbox changes
+                    document.getElementById("filters").addEventListener("change", (e) => {
+                        const target = e.target;
+                        if (target && target.matches && target.matches('input[type="checkbox"]')) {
+                            applyFilters();
+                        }
+                    });
+
+                    // Debounced search
+                    function debounce(fn, wait) {
+                        let t;
+                        return function(...args) {
+                            clearTimeout(t);
+                            t = setTimeout(() => fn.apply(this, args), wait);
+                        };
+                    }
+                    const onSearch = debounce(() => applyFilters(), 200);
+                    searchInput.addEventListener("input", onSearch);
+                    clearSearchBtn.addEventListener("click", () => { searchInput.value = ""; applyFilters(); });
+
+                    // Initial render
+                    renderRadar({ quadrants, rings, entries: entries.map(({ _category, _tags, ...rest }) => rest) });
+                    matchCount.textContent = `${entries.length} matches`;
+                } catch (err) {
+                    console.error(err);
+                    // Render a simple inline error message so the page isn't blank
+                    const svg = document.getElementById("radar");
+                    if (svg && svg.namespaceURI) {
+                        const msg = document.createElementNS(svg.namespaceURI, "text");
+                        msg.setAttribute("x", "20");
+                        msg.setAttribute("y", "40");
+                        msg.setAttribute("fill", "#c00");
+                        msg.textContent = "Failed to load radar data.json";
+                        svg.appendChild(msg);
+                    }
+                }
+            })();
+        </script>
+    </body>
 </html>
