@@ -36,7 +36,7 @@
             ],
             "moved": 1,
             "url": "https://github.com/microsoft/TypeScript",
-            "description": "Main language for frontend services"
+            "description": "Main language for frontend services."
         },
         {
             "id": "javascript",
@@ -50,7 +50,7 @@
             ],
             "moved": -1,
             "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
-            "description": "Widely used language for web development"
+            "description": "Widely used language for web development."
         },
         {
             "id": "go",
@@ -64,7 +64,7 @@
             ],
             "moved": 0,
             "url": "https://golang.org/",
-            "description": "Main language for backend services"
+            "description": "Main language for backend services. On hold because of performance issues in some services."
         },
         {
             "id": "csharp",
@@ -78,7 +78,7 @@
             ],
             "moved": 0,
             "url": "https://docs.microsoft.com/en-us/dotnet/csharp/",
-            "description": "Evaluating for backend services; strong Microsoft ecosystem"
+            "description": "Evaluating for backend services; strong Microsoft ecosystem."
         },
         
         {
@@ -93,7 +93,7 @@
             ],
             "moved": -1,
             "url": "https://reactjs.org",
-            "description": "UI framework for public UI components"
+            "description": "UI framework for public UI components. On hold because of entry complexity."
         },
         {
             "id": "vue",
@@ -107,13 +107,13 @@
             ],
             "moved": 2,
             "url": "https://vuejs.org/",
-            "description": "Exploring for new frontend projects; lightweight and flexible"
+            "description": "Exploring for new frontend projects; lightweight and flexible."
         },
         {
             "id": "bootstrap",
             "label": "Bootstrap",
             "quadrant": "Frameworks",
-            "ring": "Hold",
+            "ring": "Retired",
             "category": "Libraries",
             "tags": [
                 "ui",
@@ -121,7 +121,7 @@
             ],
             "moved": -1,
             "url": "https://getbootstrap.com/",
-            "description": "Popular CSS framework for responsive design"
+            "description": "Popular CSS framework for responsive design. Retired in favor of more modern approaches."
         },
         {
             "id": "tailwind",
@@ -135,13 +135,13 @@
             ],
             "moved": 0,
             "url": "https://tailwindcss.com/",
-            "description": "Utility-first CSS framework for rapid UI development"
+            "description": "Utility-first CSS framework for rapid UI development."
         },
         {
             "id": "razor",
             "label": "Razor",
             "quadrant": "Frameworks",
-            "ring": "Hold",
+            "ring": "Retired",
             "category": "Libraries",
             "tags": [
                 "ui",
@@ -150,13 +150,13 @@
             ],
             "moved": -1,
             "url": "https://dotnet.microsoft.com/apps/aspnet/web-apps/razor-pages",
-            "description": "Page-based programming model for building dynamic web apps"
+            "description": "Page-based programming model for building dynamic web apps. Retired in favor of SPA frameworks."
         },
         {
             "id": "aspnet-mvc",
             "label": "ASP.Net MVC",
             "quadrant": "Frameworks",
-            "ring": "Hold",
+            "ring": "Retired",
             "category": "Libraries",
             "tags": [
                 "web",
@@ -164,7 +164,7 @@
             ],
             "moved": -1,
             "url": "https://dotnet.microsoft.com/apps/aspnet/mvc",
-            "description": "Web application framework for building dynamic websites"
+            "description": "Web application framework for building dynamic websites. Retired in favor of more modern approaches."
         },
         {
             "id": "aspnet-webapi",
@@ -178,7 +178,7 @@
             ],
             "moved": 1,
             "url": "https://dotnet.microsoft.com/apps/aspnet/web-api",
-            "description": "Framework for building RESTful APIs on .NET"
+            "description": "Framework for building RESTful APIs on .NET."
         },
         {
             "id": "gin-gonic",
@@ -193,7 +193,7 @@
             ],
             "moved": 0,
             "url": "https://gin-gonic.com/",
-            "description": "Web framework for Go, used in some microservices; evaluating for broader use"
+            "description": "Web framework for Go, used in some microservices; evaluating for broader use."
         },
         {
             "id": "stackexchange-redis",
@@ -207,7 +207,7 @@
             ],
             "moved": 0,
             "url": "https://stackexchange.github.io/StackExchange.Redis/",
-            "description": "Client library for Redis, used in Stack Exchange applications"
+            "description": "Client library for Redis, used in Stack Exchange applications."
         },
 
 
@@ -223,13 +223,13 @@
             ],
             "moved": 0,
             "url": "https://www.docker.com/",
-            "description": "Containerization platform for consistent deployments"
+            "description": "Containerization platform for consistent deployments."
         },
         {
             "id": "drone-ci",
             "label": "Drone CI",
             "quadrant": "Platforms",
-            "ring": "Hold",
+            "ring": "Retired",
             "category": "CI/CD",
             "tags": [
                 "ci",
@@ -238,13 +238,13 @@
             ],
             "moved": -1,
             "url": "https://drone.io/",
-            "description": "Lightweight CI/CD platform using containerization"
+            "description": "Lightweight CI/CD platform using containerization. Retired because of security concerns."
         },
         {
             "id": "jenkins",
             "label": "Jenkins",
             "quadrant": "Platforms",
-            "ring": "Hold",
+            "ring": "Retired",
             "category": "CI/CD",
             "tags": [
                 "ci",
@@ -253,7 +253,7 @@
             ],
             "moved": 0,
             "url": "https://www.jenkins.io/",
-            "description": "Widely used open-source automation server for CI/CD"
+            "description": "Widely used open-source automation server for CI/CD. Retired in favor of more modern solutions."
         },
         {
             "id": "github-actions",
@@ -268,7 +268,7 @@
             ],
             "moved": 1,
             "url": "https://github.com/features/actions",
-            "description": "CI/CD for repository workflows"
+            "description": "CI/CD for repository workflows."
         },
         {
             "id": "aws",
@@ -282,7 +282,7 @@
             ],
             "moved": 0,
             "url": "https://aws.amazon.com/",
-            "description": "Primary cloud provider for hosting and infrastructure"
+            "description": "Primary cloud provider for hosting and infrastructure."
         },
         {
             "id": "hetzner",
@@ -296,7 +296,7 @@
             ],
             "moved": 0,
             "url": "https://www.hetzner.com/cloud",
-            "description": "Exploring as a cost-effective alternative for certain workloads"
+            "description": "Exploring as a cost-effective alternative for certain workloads."
         },
         {
             "id": "cloudflare",
@@ -310,7 +310,7 @@
             ],
             "moved": 0,
             "url": "https://www.cloudflare.com/",
-            "description": "CDN and security services for web applications"
+            "description": "CDN and security services for web applications."
         },
         {
             "id": "kubernetes",
@@ -324,7 +324,7 @@
             ],
             "moved": 0,
             "url": "https://kubernetes.io/",
-            "description": "Container orchestration platform for managing deployments"
+            "description": "Container orchestration platform for managing deployments."
         },
 
         {
@@ -339,7 +339,7 @@
             ],
             "moved": 0,
             "url": "https://www.postgresql.org/",
-            "description": "Primary relational database for transactional data"
+            "description": "Primary relational database for transactional data."
         },
         {
             "id": "mongo",
@@ -353,13 +353,13 @@
             ],
             "moved": 0,
             "url": "https://www.mongodb.com/",
-            "description": "Document DB used in a few services; evaluating for standardization"
+            "description": "Document DB used in a few services; evaluating for standardization."
         },
         {
             "id": "redis",
             "label": "Redis",
             "quadrant": "Tools",
-            "ring": "Hold",
+            "ring": "Retired",
             "category": "Data Stores",
             "tags": [
                 "cache",
@@ -367,7 +367,7 @@
             ],
             "moved": 0,
             "url": "https://redis.io/",
-            "description": "In-memory data structure store used for caching and real-time analytics"
+            "description": "In-memory data structure store used for caching and real-time analytics. Retired in favor of KeyDB."
         },
         {
             "id": "keydb",
@@ -381,7 +381,7 @@
             ],
             "moved": 0,
             "url": "https://keydb.dev/",
-            "description": "Evaluating as a high-performance alternative to Redis for caching needs"
+            "description": "Evaluating as a high-performance alternative to Redis for caching needs."
         },
         {
             "id": "prometheus",
@@ -395,7 +395,7 @@
             ],
             "moved": 0,
             "url": "https://prometheus.io/",
-            "description": "Metrics collection and alerting for observability"
+            "description": "Metrics collection and alerting for observability."
         },
         {
             "id": "vite",
@@ -409,7 +409,7 @@
             ],
             "moved": 1,
             "url": "https://vitejs.dev/",
-            "description": "Fast build tool and dev server for modern web apps"
+            "description": "Fast build tool and dev server for modern web apps."
         },
         {
             "id": "nats",
@@ -423,7 +423,7 @@
             ],
             "moved": 0,
             "url": "https://nats.io/",
-            "description": "Lightweight messaging system for microservices communication"
+            "description": "Lightweight messaging system for microservices communication."
         },
         {
             "id": "opentelemetry",
@@ -437,7 +437,7 @@
             ],
             "moved": 0,
             "url": "https://opentelemetry.io/",
-            "description": "Observability framework for cloud-native software"
+            "description": "Observability framework for cloud-native software."
         },
         {
             "id": "sentry",
@@ -451,13 +451,13 @@
             ],
             "moved": 0,
             "url": "https://sentry.io/",
-            "description": "Error tracking and performance monitoring platform"
+            "description": "Error tracking and performance monitoring platform."
         },
         {
             "id": "glitchtip",
             "label": "GlitchTip",
             "quadrant": "Tools",
-            "ring": "Hold",
+            "ring": "Retired",
             "category": "Monitoring",
             "tags": [
                 "error-tracking",
@@ -465,7 +465,7 @@
             ],
             "moved": 0,
             "url": "https://glitchtip.com/",
-            "description": "Open-source error tracking and performance monitoring"
+            "description": "Open-source error tracking and performance monitoring. Retired in favor of Sentry for better features and support and lower complexity."
         },
         {
             "id": "nexus-repository",
@@ -479,7 +479,7 @@
             ],
             "moved": 0,
             "url": "https://www.sonatype.com/products/repository-oss",
-            "description": "Artifact repository manager for build artifacts and dependencies"
+            "description": "Artifact repository manager for build artifacts and dependencies. On hold due to high costs."
         }
     ]
 }
