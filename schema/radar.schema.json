@@ -6,6 +6,11 @@
   "additionalProperties": false,
   "required": ["rings", "quadrants", "entries"],
   "properties": {
+    "revision": {
+      "type": "string",
+      "description": "ISO 8601 UTC timestamp for the dataset revision (e.g. 2025-10-26T12:34:56Z)",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$"
+    },
     "rings": {
       "type": "array",
       "items": {
@@ -47,7 +52,11 @@
             "items": { "type": "string", "minLength": 1 },
             "uniqueItems": true
           },
-          "url": { "type": "string", "format": "uri" },
+          "url": {
+            "type": "string",
+            "description": "HTTP(S) URL",
+            "pattern": "^(https?:\\/\\/)[^\\s]+$"
+          },
           "description": { "type": "string" },
           "moved": { "type": "integer" },
 
@@ -62,11 +71,19 @@
               "required": ["title", "href"],
               "properties": {
                 "title": { "type": "string" },
-                "href": { "type": "string", "format": "uri" }
+                "href": {
+                  "type": "string",
+                  "description": "HTTP(S) URL",
+                  "pattern": "^(https?:\\/\\/)[^\\s]+$"
+                }
               }
             }
           },
-          "lastReviewed": { "type": "string", "format": "date" },
+          "lastReviewed": {
+            "type": "string",
+            "description": "Date in YYYY-MM-DD format",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
           "introducedInEdition": { "type": "string" },
           "risk": { "type": "string", "enum": ["low", "medium", "high"] },
           "impact": { "type": "string", "enum": ["team", "multi-team", "org-wide"] },
@@ -77,7 +94,11 @@
               "additionalProperties": false,
               "required": ["date", "fromRing", "toRing"],
               "properties": {
-                "date": { "type": "string", "format": "date" },
+                "date": {
+                  "type": "string",
+                  "description": "Date in YYYY-MM-DD format",
+                  "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                },
                 "fromRing": { "type": "string", "enum": ["Adopt", "Trial", "Assess", "Hold"] },
                 "toRing": { "type": "string", "enum": ["Adopt", "Trial", "Assess", "Hold"] },
                 "reason": { "type": "string" }
