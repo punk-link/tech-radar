@@ -7,65 +7,39 @@
 
         <script src="https://d3js.org/d3.v7.min.js"></script>
         <script src="https://zalando.github.io/tech-radar/release/radar-0.12.js"></script>
-        <style>
-            body { margin: 0; font-family: Arial, Helvetica, sans-serif; }
-            .radar-layout { display: flex; gap: 16px; align-items: stretch; padding: 12px; min-height: 100vh; box-sizing: border-box; }
-            .filters { width: 320px; max-width: 40vw; border-right: 1px solid #eee; padding-right: 12px; overflow: auto; }
-            .filters h2 { font-size: 16px; margin: 8px 0; }
-            .filters fieldset { border: 1px solid #ddd; padding: 8px 10px; margin: 8px 0; }
-            .filters legend { font-weight: bold; font-size: 13px; }
-            .filters .controls { display: flex; gap: 8px; margin-bottom: 6px; }
-            .filters .list { max-height: 260px; overflow: auto; padding-right: 4px; }
-            .filters label { display: flex; align-items: center; gap: 6px; font-size: 13px; padding: 2px 0; }
-            .filters .muted { color: #666; font-size: 12px; }
-            .filters .search { display: flex; gap: 6px; margin: 6px 0 10px; }
-            .filters .search input { flex: 1; padding: 6px 8px; font-size: 13px; }
-            .filters .search button { padding: 6px 8px; font-size: 12px; cursor: pointer; }
-            .actions { display: flex; gap: 8px; margin-top: 8px; }
-            .actions button { padding: 6px 8px; font-size: 12px; cursor: pointer; }
-            .radar-container { flex: 1 1 auto; min-width: 0; }
-            /* Width stretches with container; height is adjusted dynamically via JS */
-            #radar { width: 100%; height: auto; }
-
-            @media (max-width: 900px) {
-                .radar-layout { flex-direction: column; height: auto; min-height: 100vh; }
-                .filters { width: auto; max-width: 100%; border-right: 0; border-bottom: 1px solid #eee; padding-bottom: 12px; }
-            }
-
-            /* (Optional) custom tooltip styles removed; we use native SVG <title> for reliability */
-        </style>
+        <link rel="stylesheet" href="./styles/output.css" />
     </head>
     <body> 
-        <div class="radar-layout">
-            <aside class="filters" id="filters">
-                <h2>Filters</h2>
-                <div class="search">
-                    <input type="text" id="searchInput" placeholder="Search techs, tags, categories..." />
-                    <button type="button" id="clearSearch" title="Clear search">✕</button>
+        <div class="flex flex-col md:flex-row gap-4 items-stretch p-3 min-h-screen box-border">
+            <aside id="filters" class="w-full md:w-80 md:max-w-[40vw] md:border-r border-gray-200 md:pr-3 md:overflow-auto border-b md:border-b-0 pb-3">
+                <h2 class="text-base font-semibold mb-2">Filters</h2>
+                <div class="flex gap-2 mb-3">
+                    <input type="text" id="searchInput" placeholder="Search techs, tags, categories..." class="flex-1 border border-gray-300 rounded px-2 py-1 text-sm" />
+                    <button type="button" id="clearSearch" title="Clear search" class="px-2 py-1 text-sm border rounded">✕</button>
                 </div>
-                <fieldset>
-                    <legend>Categories</legend>
-                    <div class="controls">
-                        <button type="button" id="catAll">All</button>
-                        <button type="button" id="catNone">None</button>
+                <fieldset class="border border-gray-200 rounded p-2 mb-3">
+                    <legend class="font-semibold text-sm px-1">Categories</legend>
+                    <div class="flex gap-2 mb-2">
+                        <button type="button" id="catAll" class="px-2 py-1 text-sm border rounded">All</button>
+                        <button type="button" id="catNone" class="px-2 py-1 text-sm border rounded">None</button>
                     </div>
-                    <div class="list" id="categoryList"></div>
+                    <div class="max-h-64 overflow-auto pr-1 space-y-1 flex flex-col" id="categoryList"></div>
                 </fieldset>
-                <fieldset>
-                    <legend>Techs (tags)</legend>
-                    <div class="controls">
-                        <button type="button" id="tagAll">All</button>
-                        <button type="button" id="tagNone">None</button>
+                <fieldset class="border border-gray-200 rounded p-2 mb-3">
+                    <legend class="font-semibold text-sm px-1">Techs (tags)</legend>
+                    <div class="flex gap-2 mb-2">
+                        <button type="button" id="tagAll" class="px-2 py-1 text-sm border rounded">All</button>
+                        <button type="button" id="tagNone" class="px-2 py-1 text-sm border rounded">None</button>
                     </div>
-                    <div class="list" id="tagList"></div>
+                    <div class="max-h-64 overflow-auto pr-1 space-y-1 flex flex-col" id="tagList"></div>
                 </fieldset>
-                <div class="actions">
-                    <button type="button" id="resetFilters">Reset filters</button>
-                    <span class="muted" id="matchCount"></span>
+                <div class="flex gap-2 items-center">
+                    <button type="button" id="resetFilters" class="px-2 py-1 text-sm border rounded">Reset filters</button>
+                    <span class="text-gray-600 text-xs" id="matchCount"></span>
                 </div>
             </aside>
-            <div class="radar-container">
-                <svg id="radar"></svg>
+            <div class="radar-container flex-1 min-w-0">
+                <svg id="radar" class="w-full h-auto"></svg>
             </div>
         </div>
 
@@ -219,6 +193,7 @@
                     function createCheckbox(name, value, checked = true) {
                         const id = `${name}-${value}`.replace(/[^a-z0-9_-]/gi, "_");
                         const wrapper = document.createElement("label");
+                        wrapper.className = "flex items-center gap-2 text-sm py-0.5";
                         const input = document.createElement("input");
                         input.type = "checkbox";
                         input.name = name;
