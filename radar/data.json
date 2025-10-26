@@ -1,139 +1,485 @@
 {
-  "revision": "2025-10-26T12:34:56Z",
-  "rings": [
-    "Adopt",
-    "Trial",
-    "Assess",
-    "Hold"
-  ],
-  "quadrants": [
-    "Languages",
-    "Frameworks",
-    "Tools",
-    "Platforms"
-  ],
-  "categories": [
-    "CI/CD",
-    "Data Stores",
-    "Monitoring",
-    "Build Tools",
-    "Hosting",
-    "Authentication",
-    "Libraries"
-  ],
-  "entries": [
-    {
-      "id": "typescript",
-      "label": "TypeScript",
-      "quadrant": "Languages",
-      "ring": "Adopt",
-      "category": "Libraries",
-      "tags": [
-        "frontend",
-        "typed"
-      ],
-      "moved": 0,
-      "url": "https://github.com/microsoft/TypeScript",
-      "description": "Main language for frontend services"
-    },
-    {
-      "id": "react",
-      "label": "React",
-      "quadrant": "Frameworks",
-      "ring": "Adopt",
-      "category": "Libraries",
-      "tags": [
-        "ui",
-        "frontend"
-      ],
-      "moved": 1,
-      "url": "https://reactjs.org",
-      "description": "UI framework for public UI components"
-    },
-    {
-      "id": "github-actions",
-      "label": "GitHub Actions",
-      "quadrant": "Tools",
-      "ring": "Adopt",
-      "category": "CI/CD",
-      "tags": [
-        "ci",
-        "cd",
-        "workflows"
-      ],
-      "moved": 0,
-      "url": "https://github.com/features/actions",
-      "description": "CI/CD for repository workflows"
-    },
-    {
-      "id": "vercel",
-      "label": "Vercel",
-      "quadrant": "Platforms",
-      "ring": "Trial",
-      "category": "Hosting",
-      "tags": [
-        "frontend-hosting",
-        "serverless"
-      ],
-      "moved": 0,
-      "url": "https://vercel.com",
-      "description": "Serverless hosting for frontend apps"
-    },
-    {
-      "id": "postgres",
-      "label": "PostgreSQL",
-      "quadrant": "Tools",
-      "ring": "Adopt",
-      "category": "Data Stores",
-      "tags": [
-        "relational",
-        "sql"
-      ],
-      "moved": 0,
-      "url": "https://www.postgresql.org/",
-      "description": "Primary relational database for transactional data"
-    },
-    {
-      "id": "mongo",
-      "label": "MongoDB",
-      "quadrant": "Tools",
-      "ring": "Assess",
-      "category": "Data Stores",
-      "tags": [
-        "document",
-        "nosql"
-      ],
-      "moved": 0,
-      "url": "https://www.mongodb.com/",
-      "description": "Document DB used in a few services; evaluating for standardization"
-    },
-    {
-      "id": "prometheus",
-      "label": "Prometheus",
-      "quadrant": "Tools",
-      "ring": "Adopt",
-      "category": "Monitoring",
-      "tags": [
-        "metrics",
-        "observability"
-      ],
-      "moved": 0,
-      "url": "https://prometheus.io/",
-      "description": "Metrics collection and alerting for observability"
-    },
-    {
-      "id": "vite",
-      "label": "Vite",
-      "quadrant": "Tools",
-      "ring": "Trial",
-      "category": "Build Tools",
-      "tags": [
-        "bundler",
-        "dev-experience"
-      ],
-      "moved": 0,
-      "url": "https://vitejs.dev/",
-      "description": "Fast build tool and dev server for modern web apps"
-    }
-  ]
+    "revision": "2025-10-26T12:34:56Z",
+    "rings": [
+        "Adopt",
+        "Trial",
+        "Assess",
+        "Hold",
+        "Retired"
+    ],
+    "quadrants": [
+        "Languages",
+        "Frameworks",
+        "Tools",
+        "Platforms"
+    ],
+    "categories": [
+        "CI/CD",
+        "Data Stores",
+        "Monitoring",
+        "Build Tools",
+        "Hosting",
+        "Authentication",
+        "Libraries",
+        "Languages"
+    ],
+    "entries": [
+        {
+            "id": "typescript",
+            "label": "TypeScript",
+            "quadrant": "Languages",
+            "ring": "Adopt",
+            "category": "Languages",
+            "tags": [
+                "frontend",
+                "typed"
+            ],
+            "moved": 1,
+            "url": "https://github.com/microsoft/TypeScript",
+            "description": "Main language for frontend services"
+        },
+        {
+            "id": "javascript",
+            "label": "JavaScript",
+            "quadrant": "Languages",
+            "ring": "Adopt",
+            "category": "Languages",
+            "tags": [
+                "frontend",
+                "dynamic"
+            ],
+            "moved": -1,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
+            "description": "Widely used language for web development"
+        },
+        {
+            "id": "go",
+            "label": "Go",
+            "quadrant": "Languages",
+            "ring": "Hold",
+            "category": "Languages",
+            "tags": [
+                "backend",
+                "typed"
+            ],
+            "moved": 0,
+            "url": "https://golang.org/",
+            "description": "Main language for backend services"
+        },
+        {
+            "id": "csharp",
+            "label": "C#",
+            "quadrant": "Languages",
+            "ring": "Adopt",
+            "category": "Languages",
+            "tags": [
+                "backend",
+                "typed"
+            ],
+            "moved": 0,
+            "url": "https://docs.microsoft.com/en-us/dotnet/csharp/",
+            "description": "Evaluating for backend services; strong Microsoft ecosystem"
+        },
+        
+        {
+            "id": "react",
+            "label": "React",
+            "quadrant": "Frameworks",
+            "ring": "Hold",
+            "category": "Libraries",
+            "tags": [
+                "ui",
+                "frontend"
+            ],
+            "moved": -1,
+            "url": "https://reactjs.org",
+            "description": "UI framework for public UI components"
+        },
+        {
+            "id": "vue",
+            "label": "Vue.js",
+            "quadrant": "Frameworks",
+            "ring": "Trial",
+            "category": "Libraries",
+            "tags": [
+                "ui",
+                "frontend"
+            ],
+            "moved": 2,
+            "url": "https://vuejs.org/",
+            "description": "Exploring for new frontend projects; lightweight and flexible"
+        },
+        {
+            "id": "bootstrap",
+            "label": "Bootstrap",
+            "quadrant": "Frameworks",
+            "ring": "Hold",
+            "category": "Libraries",
+            "tags": [
+                "ui",
+                "frontend"
+            ],
+            "moved": -1,
+            "url": "https://getbootstrap.com/",
+            "description": "Popular CSS framework for responsive design"
+        },
+        {
+            "id": "tailwind",
+            "label": "Tailwind CSS",
+            "quadrant": "Frameworks",
+            "ring": "Adopt",
+            "category": "Libraries",
+            "tags": [
+                "ui",
+                "frontend"
+            ],
+            "moved": 0,
+            "url": "https://tailwindcss.com/",
+            "description": "Utility-first CSS framework for rapid UI development"
+        },
+        {
+            "id": "razor",
+            "label": "Razor",
+            "quadrant": "Frameworks",
+            "ring": "Hold",
+            "category": "Libraries",
+            "tags": [
+                "ui",
+                "frontend",
+                "backend"
+            ],
+            "moved": -1,
+            "url": "https://dotnet.microsoft.com/apps/aspnet/web-apps/razor-pages",
+            "description": "Page-based programming model for building dynamic web apps"
+        },
+        {
+            "id": "aspnet-mvc",
+            "label": "ASP.Net MVC",
+            "quadrant": "Frameworks",
+            "ring": "Hold",
+            "category": "Libraries",
+            "tags": [
+                "web",
+                "backend"
+            ],
+            "moved": -1,
+            "url": "https://dotnet.microsoft.com/apps/aspnet/mvc",
+            "description": "Web application framework for building dynamic websites"
+        },
+        {
+            "id": "aspnet-webapi",
+            "label": "ASP.Net Web API",
+            "quadrant": "Frameworks",
+            "ring": "Adopt",
+            "category": "Libraries",
+            "tags": [
+                "api",
+                "backend"
+            ],
+            "moved": 1,
+            "url": "https://dotnet.microsoft.com/apps/aspnet/web-api",
+            "description": "Framework for building RESTful APIs on .NET"
+        },
+        {
+            "id": "gin-gonic",
+            "label": "Gin Gonic",
+            "quadrant": "Frameworks",
+            "ring": "Assess",
+            "category": "Libraries",
+            "tags": [
+                "web",
+                "backend",
+                "go"
+            ],
+            "moved": 0,
+            "url": "https://gin-gonic.com/",
+            "description": "Web framework for Go, used in some microservices; evaluating for broader use"
+        },
+        {
+            "id": "stackexchange-redis",
+            "label": "StackExchange Redis",
+            "quadrant": "Tools",
+            "ring": "Adopt",
+            "category": "Data Stores",
+            "tags": [
+                "cache",
+                "in-memory"
+            ],
+            "moved": 0,
+            "url": "https://stackexchange.github.io/StackExchange.Redis/",
+            "description": "Client library for Redis, used in Stack Exchange applications"
+        },
+
+
+        {
+            "id": "docker",
+            "label": "Docker",
+            "quadrant": "Platforms",
+            "ring": "Adopt",
+            "category": "CI/CD",
+            "tags": [
+                "containerization",
+                "devops"
+            ],
+            "moved": 0,
+            "url": "https://www.docker.com/",
+            "description": "Containerization platform for consistent deployments"
+        },
+        {
+            "id": "drone-ci",
+            "label": "Drone CI",
+            "quadrant": "Platforms",
+            "ring": "Hold",
+            "category": "CI/CD",
+            "tags": [
+                "ci",
+                "cd",
+                "pipelines"
+            ],
+            "moved": -1,
+            "url": "https://drone.io/",
+            "description": "Lightweight CI/CD platform using containerization"
+        },
+        {
+            "id": "jenkins",
+            "label": "Jenkins",
+            "quadrant": "Platforms",
+            "ring": "Hold",
+            "category": "CI/CD",
+            "tags": [
+                "ci",
+                "cd",
+                "automation"
+            ],
+            "moved": 0,
+            "url": "https://www.jenkins.io/",
+            "description": "Widely used open-source automation server for CI/CD"
+        },
+        {
+            "id": "github-actions",
+            "label": "GitHub Actions",
+            "quadrant": "Tools",
+            "ring": "Trial",
+            "category": "CI/CD",
+            "tags": [
+                "ci",
+                "cd",
+                "workflows"
+            ],
+            "moved": 1,
+            "url": "https://github.com/features/actions",
+            "description": "CI/CD for repository workflows"
+        },
+        {
+            "id": "aws",
+            "label": "Amazon Web Services (AWS)",
+            "quadrant": "Platforms",
+            "ring": "Adopt",
+            "category": "Hosting",
+            "tags": [
+                "cloud",
+                "infrastructure"
+            ],
+            "moved": 0,
+            "url": "https://aws.amazon.com/",
+            "description": "Primary cloud provider for hosting and infrastructure"
+        },
+        {
+            "id": "hetzner",
+            "label": "Hetzner Cloud",
+            "quadrant": "Platforms",
+            "ring": "Adopt",
+            "category": "Hosting",
+            "tags": [
+                "cloud",
+                "infrastructure"
+            ],
+            "moved": 0,
+            "url": "https://www.hetzner.com/cloud",
+            "description": "Exploring as a cost-effective alternative for certain workloads"
+        },
+        {
+            "id": "cloudflare",
+            "label": "Cloudflare",
+            "quadrant": "Platforms",
+            "ring": "Adopt",
+            "category": "Hosting",
+            "tags": [
+                "cdn",
+                "security"
+            ],
+            "moved": 0,
+            "url": "https://www.cloudflare.com/",
+            "description": "CDN and security services for web applications"
+        },
+        {
+            "id": "kubernetes",
+            "label": "Kubernetes",
+            "quadrant": "Platforms",
+            "ring": "Adopt",
+            "category": "Hosting",
+            "tags": [
+                "orchestration",
+                "containers"
+            ],
+            "moved": 0,
+            "url": "https://kubernetes.io/",
+            "description": "Container orchestration platform for managing deployments"
+        },
+
+        {
+            "id": "postgres",
+            "label": "PostgreSQL",
+            "quadrant": "Tools",
+            "ring": "Trial",
+            "category": "Data Stores",
+            "tags": [
+                "relational",
+                "sql"
+            ],
+            "moved": 0,
+            "url": "https://www.postgresql.org/",
+            "description": "Primary relational database for transactional data"
+        },
+        {
+            "id": "mongo",
+            "label": "MongoDB",
+            "quadrant": "Tools",
+            "ring": "Hold",
+            "category": "Data Stores",
+            "tags": [
+                "document",
+                "nosql"
+            ],
+            "moved": 0,
+            "url": "https://www.mongodb.com/",
+            "description": "Document DB used in a few services; evaluating for standardization"
+        },
+        {
+            "id": "redis",
+            "label": "Redis",
+            "quadrant": "Tools",
+            "ring": "Hold",
+            "category": "Data Stores",
+            "tags": [
+                "cache",
+                "in-memory"
+            ],
+            "moved": 0,
+            "url": "https://redis.io/",
+            "description": "In-memory data structure store used for caching and real-time analytics"
+        },
+        {
+            "id": "keydb",
+            "label": "KeyDB",
+            "quadrant": "Tools",
+            "ring": "Adopt",
+            "category": "Data Stores",
+            "tags": [
+                "cache",
+                "in-memory"
+            ],
+            "moved": 0,
+            "url": "https://keydb.dev/",
+            "description": "Evaluating as a high-performance alternative to Redis for caching needs"
+        },
+        {
+            "id": "prometheus",
+            "label": "Prometheus",
+            "quadrant": "Tools",
+            "ring": "Adopt",
+            "category": "Monitoring",
+            "tags": [
+                "metrics",
+                "observability"
+            ],
+            "moved": 0,
+            "url": "https://prometheus.io/",
+            "description": "Metrics collection and alerting for observability"
+        },
+        {
+            "id": "vite",
+            "label": "Vite",
+            "quadrant": "Tools",
+            "ring": "Trial",
+            "category": "Build Tools",
+            "tags": [
+                "bundler",
+                "dev-experience"
+            ],
+            "moved": 1,
+            "url": "https://vitejs.dev/",
+            "description": "Fast build tool and dev server for modern web apps"
+        },
+        {
+            "id": "nats",
+            "label": "NATS",
+            "quadrant": "Tools",
+            "ring": "Trial",
+            "category": "Messaging",
+            "tags": [
+                "messaging",
+                "pubsub"
+            ],
+            "moved": 0,
+            "url": "https://nats.io/",
+            "description": "Lightweight messaging system for microservices communication"
+        },
+        {
+            "id": "opentelemetry",
+            "label": "OpenTelemetry",
+            "quadrant": "Tools",
+            "ring": "Adopt",
+            "category": "Monitoring",
+            "tags": [
+                "tracing",
+                "observability"
+            ],
+            "moved": 0,
+            "url": "https://opentelemetry.io/",
+            "description": "Observability framework for cloud-native software"
+        },
+        {
+            "id": "sentry",
+            "label": "Sentry",
+            "quadrant": "Tools",
+            "ring": "Adopt",
+            "category": "Monitoring",
+            "tags": [
+                "error-tracking",
+                "monitoring"
+            ],
+            "moved": 0,
+            "url": "https://sentry.io/",
+            "description": "Error tracking and performance monitoring platform"
+        },
+        {
+            "id": "glitchtip",
+            "label": "GlitchTip",
+            "quadrant": "Tools",
+            "ring": "Hold",
+            "category": "Monitoring",
+            "tags": [
+                "error-tracking",
+                "monitoring"
+            ],
+            "moved": 0,
+            "url": "https://glitchtip.com/",
+            "description": "Open-source error tracking and performance monitoring"
+        },
+        {
+            "id": "nexus-repository",
+            "label": "Nexus Repository",
+            "quadrant": "Tools",
+            "ring": "Hold",
+            "category": "Build Tools",
+            "tags": [
+                "artifact-management",
+                "repository"
+            ],
+            "moved": 0,
+            "url": "https://www.sonatype.com/products/repository-oss",
+            "description": "Artifact repository manager for build artifacts and dependencies"
+        }
+    ]
 }
