@@ -10,6 +10,27 @@ function normalizeHref(href) {
 
 
 (async function () {
+    function setRevisionDate(res, data) {
+        try {
+            const el = document.getElementById('revisionDate');
+            if (!el) return;
+            const headerDate = res.headers ? res.headers.get('Last-Modified') : null;
+            const candidate = headerDate || data?.revision;
+            let d = candidate ? new Date(candidate) : null;
+            if (!d || isNaN(d.getTime())) {
+                d = new Date();
+            }
+
+            const formatted = d.toLocaleString(undefined, {
+                year: 'numeric', month: 'short', day: '2-digit',
+                hour: '2-digit', minute: '2-digit'
+            });
+            
+            el.textContent = `Last updated: ${formatted}`;
+            el.title = candidate ? String(candidate) : d.toISOString();
+        } catch {}
+    }
+
     function computeDimensions() {
         const container = document.querySelector('.radar-container');
         const rect = container ? container.getBoundingClientRect() : { width: 1200, top: 0 };
@@ -87,6 +108,7 @@ function normalizeHref(href) {
             throw new Error(`Failed to load data.json: ${res.status} ${res.statusText}`);
         
         const data = await res.json();
+        setRevisionDate(res, data);
 
         const ringNames = Array.isArray(data.rings) ? data.rings : [];
         const quadrantNames = Array.isArray(data.quadrants) ? data.quadrants : [];
