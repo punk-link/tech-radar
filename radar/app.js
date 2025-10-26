@@ -100,6 +100,7 @@ function normalizeHref(href) {
         }
         
         attachTooltips();
+        styleRetiredBlips();
     }
 
     try {
@@ -120,9 +121,21 @@ function normalizeHref(href) {
             quadrantNames.map((n, i) => [String(n).toLowerCase(), i])
         );
 
-        const ringPalette = ["#5ba300", "#009eb0", "#c7ba00", "#e09b96", "#9b59b6", "#34495e"];
+        const ringPalette = ["#5ba300", "#009eb0", "#c7ba00", "#e09b96", "#9e9e9e", "#34495e"]; // last two: retired gray, extra slate
+        const ringColorByName = new Map([
+            ["adopt", "#5ba300"],
+            ["trial", "#009eb0"],
+            ["assess", "#c7ba00"],
+            ["hold", "#e09b96"],
+            ["retired", "#9e9e9e"],
+        ]);
 
-        const rings = ringNames.map((name, i) => ({ name, color: ringPalette[i % ringPalette.length] }));
+        const rings = ringNames.map((name, i) => {
+            const key = String(name).toLowerCase();
+            const color = ringColorByName.get(key) || ringPalette[i % ringPalette.length];
+
+            return { name, color };
+        });
         const quadrants = quadrantNames.map((name) => ({ name }));
 
         const sourceEntries = (Array.isArray(data.entries) ? data.entries : []);
@@ -143,7 +156,8 @@ function normalizeHref(href) {
                 _category: e.category,
                 _tags: Array.isArray(e.tags) ? e.tags : [],
                 _desc: e.description || "",
-                _url: e.url || ''
+                _url: e.url || '',
+                _ringName: e.ring ? String(e.ring) : undefined
             };
         });
 
@@ -197,6 +211,83 @@ function normalizeHref(href) {
             );
         }
 
+        function renderCustomLegend(list) {
+            try {
+                const customLegend = document.getElementById('customLegend');
+                if (!customLegend) 
+                    return;
+
+                const retired = list.filter(e => String(e._ringName || '').toLowerCase() === 'retired');
+                if (retired.length === 0) {
+                    customLegend.innerHTML = `
+                        <div class="flex items-center gap-3">
+                            <div class="flex items-center gap-1">
+                                <span class="inline-block w-3 h-3 rounded-full" style="background:#9e9e9e"></span>
+                                <span>Retired (shown on Hold ring)</span>
+                            </div>
+                        </div>`;
+
+                    return;
+                }
+
+                const idSafe = (s) => String(s).replace(/[^a-z0-9_-]/gi, "_");
+                const itemsHTML = retired.map(e => {
+                    const label = e.label || e.id;
+                    const href = e._url || '';
+                    const safeLabel = String(label).replace(/[<>]/g, '');
+                    const link = href ? `<a class="underline hover:text-slate-100" href="${href}" target="_blank" rel="noopener noreferrer">${safeLabel}</a>` : `<span>${safeLabel}</span>`;
+                    const liId = `legend-item-${idSafe(e.id || safeLabel)}`;
+                    
+                    return `<li id="${liId}" class="ml-5 list-disc legend-retired-item">${link}</li>`;
+                }).join('');
+
+                customLegend.innerHTML = `
+                    <div class="flex items-center gap-3 mb-1">
+                        <div class="flex items-center gap-1">
+                            <span class="inline-block w-3 h-3 rounded-full" style="background:#9e9e9e"></span>
+                            <span>Retired (shown on Hold ring) — ${retired.length}</span>
+                        </div>
+                    </div>
+                    <ul class="text-slate-300">${itemsHTML}</ul>
+                `;
+                
+                const tip = ensureTooltip();
+                retired.forEach(e => {
+                    const label = e.label || e.id || '';
+                    const safeLabel = String(label).replace(/[<>]/g, '');
+                    const liId = `legend-item-${idSafe(e.id || safeLabel)}`;
+                    const el = document.getElementById(liId);
+                    if (!el) 
+                        return;
+
+                    const meta = {
+                        category: e._category,
+                        tags: e._tags,
+                        ring: e._ringName || 'Retired',
+                        quadrant: (typeof e.quadrant === 'number' ? (quadrants[e.quadrant]?.name) : e.quadrant) || undefined,
+                        desc: e._desc,
+                        label: e.label
+                    };
+
+                    const onEnter = (ev) => { tip.innerHTML = buildTooltipHTML(safeLabel, meta); tip.style.display = 'block'; onMove(ev); };
+                    const onLeave = () => { tip.style.display = 'none'; };
+                    const onMove = (ev) => {
+                        const pad = 12;
+                        const vw = window.innerWidth, vh = window.innerHeight;
+                        const tw = tip.offsetWidth || 240;
+                        const th = tip.offsetHeight || 120;
+                        const left = Math.min(ev.clientX + pad, vw - tw - 4);
+                        const top = Math.min(ev.clientY + pad, vh - th - 4);
+                        tip.style.left = `${left}px`;
+                        tip.style.top = `${top}px`;
+                    };
+                    el.addEventListener('mouseenter', onEnter);
+                    el.addEventListener('mouseleave', onLeave);
+                    el.addEventListener('mousemove', onMove);
+                });
+            } catch {}
+        }
+
         function applyFilters() {
             const selectedCategories = selected("category");
             const selectedTags = selected("tag");
@@ -217,13 +308,35 @@ function normalizeHref(href) {
             });
 
             matchCount.textContent = `${filtered.length} match${filtered.length === 1 ? "" : "es"}`;
-            
-            currentMetaByHref = new Map(
-                filtered.map(e => [normalizeHref(e._url), { category: e._category, tags: e._tags, ring: rings[e.ring]?.name, quadrant: quadrants[e.quadrant]?.name, desc: e._desc, label: e.label }])
-            );
-            const mapped = filtered.map(({ _category, _tags, _desc, ...rest }) => rest);
 
-            renderRadar({ quadrants, rings, entries: mapped });
+            currentMetaByHref = new Map(
+                filtered.map(e => [
+                    normalizeHref(e._url),
+                    {
+                        category: e._category,
+                        tags: e._tags,
+                        ring: e._ringName || (rings[e.ring]?.name),
+                        quadrant: quadrants[e.quadrant]?.name,
+                        desc: e._desc,
+                        label: e.label
+                    }
+                ])
+            );
+
+            // Workaround: renderer supports 4 rings; map Retired into Hold visually
+            const supportedRings = ["Adopt", "Trial", "Assess", "Hold"]; // order matters
+            const vizRings = supportedRings.map(n => ({ name: n, color: ringColorByName.get(n.toLowerCase()) || "#999" }));
+            const vizRingIndex = new Map(vizRings.map((r, i) => [r.name.toLowerCase(), i]));
+
+            const mapped = filtered.map(({ _category, _tags, _desc, _ringName, ...rest }) => {
+                const key = String(_ringName || rings[rest.ring]?.name || '').toLowerCase();
+                const effectiveKey = key === 'retired' ? 'hold' : key;
+                const ringIdx = vizRingIndex.has(effectiveKey) ? vizRingIndex.get(effectiveKey) : vizRingIndex.get('hold');
+                return { ...rest, ring: typeof ringIdx === 'number' ? ringIdx : 3 };
+            });
+
+            renderRadar({ quadrants, rings: vizRings, entries: mapped });
+            renderCustomLegend(filtered);
         }
 
         
@@ -264,11 +377,26 @@ function normalizeHref(href) {
         window.addEventListener('resize', onResize);
         
         currentMetaByHref = new Map(
-            entries.map(e => [normalizeHref(e._url), { category: e._category, tags: e._tags, ring: rings[e.ring]?.name, quadrant: quadrants[e.quadrant]?.name, desc: e._desc, label: e.label }])
+            entries.map(e => [
+                normalizeHref(e._url),
+                { category: e._category, tags: e._tags, ring: e._ringName || (rings[e.ring]?.name), quadrant: quadrants[e.quadrant]?.name, desc: e._desc, label: e.label }
+            ])
         );
 
-        renderRadar({ quadrants, rings, entries: entries.map(({ _category, _tags, _desc, ...rest }) => rest) });
+        // Initial render with workaround mapping
+        const supportedRings = ["Adopt", "Trial", "Assess", "Hold"]; // order matters
+        const vizRings = supportedRings.map(n => ({ name: n, color: ringColorByName.get(n.toLowerCase()) || "#999" }));
+        const vizRingIndex = new Map(vizRings.map((r, i) => [r.name.toLowerCase(), i]));
+        const initialMapped = entries.map(({ _category, _tags, _desc, _ringName, ...rest }) => {
+            const key = String(_ringName || rings[rest.ring]?.name || '').toLowerCase();
+            const effectiveKey = key === 'retired' ? 'hold' : key;
+            const ringIdx = vizRingIndex.has(effectiveKey) ? vizRingIndex.get(effectiveKey) : vizRingIndex.get('hold');
+
+            return { ...rest, ring: typeof ringIdx === 'number' ? ringIdx : 3 };
+        });
+        renderRadar({ quadrants, rings: vizRings, entries: initialMapped });
         matchCount.textContent = `${entries.length} matches`;
+        renderCustomLegend(entries);
     } catch (err) {
         console.error(err);
         
@@ -351,8 +479,40 @@ function attachTooltips() {
     svg.querySelectorAll('a').forEach(a => {
         const href = a.getAttribute('href') || a.getAttribute('xlink:href') || a.href || '';
         const meta = currentMetaByHref.get(normalizeHref(href));
-        if (!meta) return;
+        if (!meta) 
+            return;
+
         const label = meta.label || '';
         bind(a, label, meta);
     });
+}
+
+function styleRetiredBlips() {
+    try {
+        const svg = document.getElementById('radar');
+        if (!svg) 
+            return;
+
+        const RETIRED_COLOR = '#9e9e9e';
+        svg.querySelectorAll('a').forEach(a => {
+            const href = a.getAttribute('href') || a.getAttribute('xlink:href') || a.href || '';
+            const meta = currentMetaByHref.get(normalizeHref(href));
+            if (!meta) 
+                return;
+
+            if ((meta.ring || '').toLowerCase() !== 'retired') 
+                return;
+            
+            a.querySelectorAll('circle, path, rect').forEach(el => {
+                el.setAttribute('fill', RETIRED_COLOR);
+                el.setAttribute('stroke', RETIRED_COLOR);
+                el.setAttribute('opacity', '0.95');
+            });
+
+            a.querySelectorAll('text').forEach(t => {
+                t.setAttribute('fill', RETIRED_COLOR);
+                t.setAttribute('opacity', '0.9');
+            });
+        });
+    } catch {}
 }

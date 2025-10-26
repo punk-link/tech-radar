@@ -15,7 +15,7 @@
       "type": "array",
       "items": {
         "type": "string",
-        "enum": ["Adopt", "Trial", "Assess", "Hold"]
+        "enum": ["Adopt", "Trial", "Assess", "Hold", "Retired"]
       },
       "minItems": 1,
       "uniqueItems": true
@@ -45,7 +45,7 @@
           "id": { "type": "string", "minLength": 1 },
           "label": { "type": "string", "minLength": 1 },
           "quadrant": { "type": "string", "enum": ["Languages", "Frameworks", "Tools", "Platforms"] },
-          "ring": { "type": "string", "enum": ["Adopt", "Trial", "Assess", "Hold"] },
+          "ring": { "type": "string", "enum": ["Adopt", "Trial", "Assess", "Hold", "Retired"] },
           "category": { "type": "string" },
           "tags": {
             "type": "array",
@@ -99,8 +99,8 @@
                   "description": "Date in YYYY-MM-DD format",
                   "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
                 },
-                "fromRing": { "type": "string", "enum": ["Adopt", "Trial", "Assess", "Hold"] },
-                "toRing": { "type": "string", "enum": ["Adopt", "Trial", "Assess", "Hold"] },
+                "fromRing": { "type": "string", "enum": ["Adopt", "Trial", "Assess", "Hold", "Retired"] },
+                "toRing": { "type": "string", "enum": ["Adopt", "Trial", "Assess", "Hold", "Retired"] },
                 "reason": { "type": "string" }
               }
             }
