@@ -480,6 +480,34 @@
             "moved": 0,
             "url": "https://www.sonatype.com/products/repository-oss",
             "description": "Artifact repository manager for build artifacts and dependencies. On hold due to high costs."
+        },
+        {
+            "id": "sonarqube",
+            "label": "SonarQube",
+            "quadrant": "Tools",
+            "ring": "Retired",
+            "category": "Build Tools",
+            "tags": [
+                "code-quality",
+                "static-analysis"
+            ],
+            "moved": 0,
+            "url": "https://www.sonarqube.org/",
+            "description": "Platform for continuous inspection of code quality. CodeQL integrates directly with our GitHub Actions workflows and covers the security and pattern-based checks we need."
+        },
+        {
+            "id": "codeql",
+            "label": "CodeQL",
+            "quadrant": "Tools",
+            "ring": "Adopt",
+            "category": "Build Tools",
+            "tags": [
+                "code-analysis",
+                "security"
+            ],
+            "moved": 0,
+            "url": "https://codeql.github.com/",
+            "description": "Semantic code analysis engine for identifying vulnerabilities."
         }
     ]
 }
