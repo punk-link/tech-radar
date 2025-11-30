@@ -508,6 +508,20 @@
             "moved": 0,
             "url": "https://codeql.github.com/",
             "description": "Semantic code analysis engine for identifying vulnerabilities."
+        },
+        {
+            "id": "playwright",
+            "label": "Playwright",
+            "quadrant": "Tools",
+            "ring": "Trial",
+            "category": "Build Tools",
+            "tags": [
+                "testing",
+                "e2e"
+            ],
+            "moved": 1,
+            "url": "https://playwright.dev/",
+            "description": "End-to-end testing framework for web applications."
         }
     ]
 }
