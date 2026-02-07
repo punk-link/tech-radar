@@ -398,6 +398,76 @@
             "description": "Metrics collection and alerting for observability."
         },
         {
+            "id": "grafana",
+            "label": "Grafana",
+            "quadrant": "Tools",
+            "ring": "Adopt",
+            "category": "Monitoring",
+            "tags": [
+                "visualization",
+                "observability"
+            ],
+            "moved": 0,
+            "url": "https://grafana.com/",
+            "description": "Visualization and analytics platform for monitoring data."
+        },
+        {
+            "id": "otel-collector",
+            "label": "OpenTelemetry Collector",
+            "quadrant": "Tools",
+            "ring": "Adopt",
+            "category": "Monitoring",
+            "tags": [
+                "observability",
+                "telemetry"
+            ],
+            "moved": 0,
+            "url": "https://opentelemetry.io/docs/collector/",
+            "description": "Component for receiving, processing, and exporting telemetry data."
+        },
+        {
+            "id": "jaeger",
+            "label": "Jaeger",
+            "quadrant": "Tools",
+            "ring": "Retired",
+            "category": "Monitoring",
+            "tags": [
+                "tracing",
+                "observability"
+            ],
+            "moved": 0,
+            "url": "https://www.jaegertracing.io/",
+            "description": "Distributed tracing system for monitoring and troubleshooting. Retired in favor of Grafana Tempo for better integration and features."
+        },
+        {
+            "id": "loki",
+            "label": "Grafana Loki",
+            "quadrant": "Tools",
+            "ring": "Adopt",
+            "category": "Monitoring",
+            "tags": [
+                "logging",
+                "observability"
+            ],
+            "moved": 0,
+            "url": "https://grafana.com/oss/loki/",
+            "description": "Log aggregation system designed for efficiency and scalability."
+        },
+        {
+            "id": "tempo",
+            "label": "Grafana Tempo",
+            "quadrant": "Tools",
+            "ring": "Adopt",
+            "category": "Monitoring",
+            "tags": [
+                "tracing",
+                "observability"
+            ],
+            "moved": 0,
+            "url": "https://grafana.com/oss/tempo/",
+            "description": "Distributed tracing backend for observability."
+        },
+        {
             "id": "vite",
             "label": "Vite",
             "quadrant": "Tools",
