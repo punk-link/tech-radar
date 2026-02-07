@@ -592,6 +592,20 @@
             "moved": 1,
             "url": "https://playwright.dev/",
             "description": "End-to-end testing framework for web applications."
+        },
+        {
+            "id": "argo-cd",
+            "label": "Argo CD",
+            "quadrant": "Tools",
+            "ring": "Trial",
+            "category": "CI/CD",
+            "tags": [
+                "cd",
+                "kubernetes"
+            ],
+            "moved": 0,
+            "url": "https://argo-cd.readthedocs.io/en/stable/",
+            "description": "Declarative GitOps continuous delivery tool for Kubernetes."
         }
     ]
 }
