@@ -606,6 +606,20 @@
             "moved": 0,
             "url": "https://argo-cd.readthedocs.io/en/stable/",
             "description": "Declarative GitOps continuous delivery tool for Kubernetes."
+        },
+        {
+            "id": "tiptap",
+            "label": "Tiptap",
+            "quadrant": "Tools",
+            "ring": "Trial",
+            "category": "Libraries",
+            "tags": [
+                "rich-text-editor",
+                "frontend"
+            ],
+            "moved": 0,
+            "url": "https://tiptap.dev/",
+            "description": "Headless rich-text editor framework for modern web applications."
         }
     ]
 }
